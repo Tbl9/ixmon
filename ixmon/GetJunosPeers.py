@@ -13,7 +13,6 @@ def getJunosPeers(ipaddr):
 		peer = {}
 		peer["peer-address"] = peers["peer-address"][0]["data"]
 		peer["peer-as"] = peers["peer-as"][0]["data"]
-		peer["description"] = peers["description"][0]["data"]
 		peer["peer-state"] = peers["peer-state"][0]["data"]
 		returned_list.append(peer)
 	return returned_list
