@@ -17,8 +17,9 @@ def ping_neighbor(router,neighbor):
     dev = Device(host=router.ipv4address, user='ntc', password='ntc123',
         gather_facts=False)
     dev.open()
-    print dev.rpc.ping(count='1', host=neighbor)
+    dev.rpc.ping(count='1', host=neighbor)
     xmloutput = dev.rpc.ping(count='3', host=neighbor)
+    dev.close()
     output = xmltodict.parse(etree.tostring(xmloutput))
     result={}
     result['min']=output["ping-results"]["probe-results-summary"]["rtt-minimum"]
@@ -28,7 +29,7 @@ def ping_neighbor(router,neighbor):
 
 def main():
     myRouter = Router.objects.get(hostname="vmx7")
-    neighbor = "4.2.2.2"
+    neighbor = "206.81.80.5"
     print myRouter.hostname
     result = ping_neighbor(myRouter, neighbor)
     poll_insert.addpoll(neighbor,result['min'],result['avg'],result['max'])
