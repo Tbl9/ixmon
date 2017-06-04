@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 import datetime
+from django.utils.timezone import now
 
 
 class Peer(models.Model):
@@ -18,7 +19,7 @@ class Peer(models.Model):
 
 class Poll(models.Model):
     peer = models.ForeignKey(Peer)
-    timestamp = models.IntegerField()
+    timestamp = models.DateTimeField(default=now)
     ping_min = models.FloatField()
     ping_max = models.FloatField()
     ping_avg = models.FloatField()
