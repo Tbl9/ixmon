@@ -14,10 +14,11 @@ def getJunosPeers(ipaddr):
 		peer["peer-address"] = peers["peer-address"][0]["data"]
 		peer["peer-as"] = peers["peer-as"][0]["data"]
 		peer["description"] = peers["description"][0]["data"]
+		peer["peer-state"] = peers["peer-state"][0]["data"]
 		returned_list.append(peer)
 	return returned_list
 
 
 if __name__=="__main__":
 	vmx7 = "35.163.254.138"
-	getJunosPeers(vmx7)
+	getJunosPeers(vmx7)	
