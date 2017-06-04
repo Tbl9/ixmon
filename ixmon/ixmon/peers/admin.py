@@ -3,4 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-# Register your models here.
+from .models import Peer, Poll
+
+admin.site.register(Peer)
+admin.site.register(Poll)
