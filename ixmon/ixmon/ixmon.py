@@ -18,7 +18,7 @@ def ping_neighbor(router,neighbor):
         gather_facts=False)
     dev.open()
     dev.rpc.ping(count='1', host=neighbor)
-    xmloutput = dev.rpc.ping(count='3', host=neighbor)
+    xmloutput = dev.rpc.ping(count='10', host=neighbor)
     dev.close()
     output = xmltodict.parse(etree.tostring(xmloutput))
     result={}
