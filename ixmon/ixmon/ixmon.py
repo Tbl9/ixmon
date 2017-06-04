@@ -1,14 +1,15 @@
-
+#!/usr/bin/env python
 
 import os
 import django
-from jnpr.junos import Device
-from lxml import etree
-import xmltodict
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ixmon.settings")
 django.setup()
 
+from jnpr.junos import Device
+from lxml import etree
+import xmltodict
+import poll_insert
 from devices.models import Router
 
 def ping_neighbor(router,neighbor):
@@ -20,16 +21,17 @@ def ping_neighbor(router,neighbor):
     xmloutput = dev.rpc.ping(count='3', host=neighbor)
     output = xmltodict.parse(etree.tostring(xmloutput))
     result={}
-    result['minimum']=output["ping-results"]["probe-results-summary"]["rtt-minimum"]
-    result['average']=output["ping-results"]["probe-results-summary"]["rtt-average"]
-    result['maximum']=output["ping-results"]["probe-results-summary"]["rtt-maximum"]
+    result['min']=output["ping-results"]["probe-results-summary"]["rtt-minimum"]
+    result['avg']=output["ping-results"]["probe-results-summary"]["rtt-average"]
+    result['max']=output["ping-results"]["probe-results-summary"]["rtt-maximum"]
     return result
 
 def main():
     myRouter = Router.objects.get(hostname="vmx7")
     neighbor = "4.2.2.2"
     print myRouter.hostname
-    ping_neighbor(myRouter, neighbor)
+    result = ping_neighbor(myRouter, neighbor)
+    poll_insert.addpoll(neighbor,result['min'],result['avg'],result['max'])
 
 if __name__ == '__main__':
     main()
