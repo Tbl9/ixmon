@@ -4,8 +4,8 @@ import netmiko
 import json
 import pprint
 
-def getJunosPeers(ipaddr):
-	net_connect = netmiko.ConnectHandler(device_type='juniper_junos', ip=ipaddr, username='ntc', password='ntc123') 
+def getJunosPeers(ipaddr, username, password):
+	net_connect = netmiko.ConnectHandler(device_type='juniper_junos', ip=ipaddr, username=username, password=password) 
 	output = net_connect.send_command("show bgp neighbor | display json")
 	dict_output  = json.loads(output)
 	returned_list = []
@@ -20,4 +20,6 @@ def getJunosPeers(ipaddr):
 
 if __name__=="__main__":
 	vmx7 = "35.163.254.138"
-	getJunosPeers(vmx7)	
+        username = "ntc"
+        password = "ntc123"
+	print getJunosPeers(vmx7, username, password)	
